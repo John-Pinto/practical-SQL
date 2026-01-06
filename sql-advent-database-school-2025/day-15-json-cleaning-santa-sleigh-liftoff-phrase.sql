@@ -14,58 +14,58 @@ The sleigh won’t launch without it.
 SELECT
 	*
 FROM
-	SYSTEM_DISPATCHES
+	system_dispatches
 LIMIT
 	10;
 
 SELECT
 	*
 FROM
-	INCOMING_DISPATCHES
+	incoming_dispatches
 LIMIT
 	10;
 
 WITH
-	CUMMULATIVE AS (
+	cummulative AS (
 		SELECT
-			SYSTEM_ID,
-			DISPATCHED_AT,
-			PAYLOAD,
-			'system' AS DISPATCH_ORIGIN
+			system_id,
+			dispatched_at,
+			payload,
+			'system' AS dispatch_origin
 		FROM
-			SYSTEM_DISPATCHES
+			system_dispatches
 		UNION
 		SELECT
-			SYSTEM_ID,
-			DISPATCHED_AT,
-			PAYLOAD,
-			'incoming' AS DISPATCH_ORIGIN
+			system_id,
+			dispatched_at,
+			payload,
+			'incoming' AS dispatch_origin
 		FROM
-			INCOMING_DISPATCHES
+			incoming_dispatches
 	),
-	CLEANED AS (
+	cleaned AS (
 		SELECT
-			SYSTEM_ID,
-			DISPATCHED_AT,
-			PAYLOAD ->> 'marker' AS PAYLOAD_MARKER,
-			PAYLOAD ->> 'source' AS PAYLOAD_SOURCE,
-			DISPATCH_ORIGIN,
+			system_id,
+			dispatched_at,
+			payload ->> 'marker' AS payload_marker,
+			payload ->> 'source' AS payload_source,
+			dispatch_origin,
 			ROW_NUMBER() OVER (
 				PARTITION BY
-					SYSTEM_ID
+					system_id
 				ORDER BY
-					DISPATCHED_AT DESC
+					dispatched_at DESC
 			)
 		FROM
-			CUMMULATIVE
+			cummulative
 		WHERE
-			PAYLOAD ->> 'source' = 'primary'
+			payload ->> 'source' = 'primary'
 	)
 SELECT
-	SYSTEM_ID,
-	DISPATCHED_AT,
-	PAYLOAD_MARKER
+	system_id,
+	dispatched_at,
+	payload_marker
 FROM
-	CLEANED
+	cleaned
 WHERE
-	ROW_NUMBER = 1;
+	row_number = 1;

@@ -12,44 +12,44 @@ both in ascending order.
 SELECT
 	*
 FROM
-	FAMILIES
+	families
 LIMIT
 	10;
 
 SELECT
 	*
 FROM
-	DELIVERIES_ASSIGNED
+	deliveries_assigned
 LIMIT
 	10;
 
 WITH
-	GENERATE_DATES AS (
+	generate_dates AS (
 		SELECT
-			GENERATE_SERIES('2025-12-15', '2025-12-25', INTERVAL '1 day')::DATE AS DATES
+			GENERATE_SERIES('2025-12-15', '2025-12-25', INTERVAL '1 day')::date AS dates
 	),
-	FAMILIES_WITH_DATES AS (
+	families_with_dates AS (
 		SELECT
 			*
 		FROM
-			FAMILIES
-			CROSS JOIN GENERATE_DATES
+			families
+			CROSS JOIN generate_dates
 	),
-	UNASSIGNED_DELIVERIES AS (
+	unassigned_deliveries AS (
 		SELECT
 			*
 		FROM
-			FAMILIES_WITH_DATES AS F
-			LEFT JOIN DELIVERIES_ASSIGNED AS D ON F.ID = D.FAMILY_ID
-			AND F.DATES = D.GIFT_DATE
+			families_with_dates AS f
+			LEFT JOIN deliveries_assigned AS d ON f.id = d.family_id
+			AND f.dates = d.gift_date
 		WHERE
-			D.ID IS NULL
+			d.id IS NULL
 	)
 SELECT
-	DATES AS UNASSIGNED_DATE,
-	FAMILY_NAME AS NAME
+	dates AS unassigned_date,
+	family_name AS name
 FROM
-	UNASSIGNED_DELIVERIES
+	unassigned_deliveries
 ORDER BY
-	UNASSIGNED_DATE ASC,
-	NAME ASC;
+	unassigned_date ASC,
+	name ASC;

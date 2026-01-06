@@ -7,10 +7,10 @@ Make sure the wish results have no extra leading or trailing spaces and are all 
 */
 
 SELECT
-	TRIM(LOWER(RAW_WISH)) AS RAW_WISH,
+	TRIM(LOWER(raw_wish)) AS raw_wish,
 	COUNT(*)
 FROM
-	WISH_LIST
+	wish_list
 GROUP BY
 	1
 ORDER BY

@@ -7,31 +7,32 @@ Boost the results where the term appears in the title and lastly,
 rank the results by relevance (most relevant first). 
 Provide the elves the top 5 most relevant archived records back.
 */
+
 SELECT
 	*
 FROM
-	ARCHIVE_RECORDS
+	archive_records
 LIMIT
 	10;
 
 WITH
-	RECORDS_VECTOR AS (
+	records_vector AS (
 		SELECT
 			*,
-			SETWEIGHT(TO_TSVECTOR('english', TITLE), 'A') || SETWEIGHT(TO_TSVECTOR('english', DESCRIPTION), 'B') AS VECTORS
+			SETWEIGHT(TO_TSVECTOR('english', title), 'A') || SETWEIGHT(TO_TSVECTOR('english', description), 'B') AS vectors
 		FROM
-			ARCHIVE_RECORDS
+			archive_records
 	)
 SELECT
-	ID,
-	TITLE,
-	DESCRIPTION,
-	TS_RANK(VECTORS, TO_TSQUERY('english', 'fly:*')) AS RANK
+	id,
+	title,
+	description,
+	TS_RANK(vectors, TO_TSQUERY('english', 'fly:*')) AS rank
 FROM
-	RECORDS_VECTOR
+	records_vector
 WHERE
-	VECTORS @@ TO_TSQUERY('english', 'fly:*')
+	vectors @@ TO_TSQUERY('english', 'fly:*')
 ORDER BY
-	RANK DESC
+	rank DESC
 LIMIT
 	5;

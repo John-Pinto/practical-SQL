@@ -10,33 +10,33 @@ Order the report by the most recent order first so Evergreen Market can reach ou
 SELECT
 	*
 FROM
-	ORDERS
+	orders
 LIMIT
 	10;
 
 SELECT
-	O.CUSTOMER_ID,
-	O.SHIPPING,
-	O.GIFT_WRAP,
-	O.RISK_FLAG
+	o.customer_id,
+	o.shipping,
+	o.gift_wrap,
+	o.risk_flag
 FROM
 	(
 		SELECT
-			CUSTOMER_ID,
-			CREATED_AT,
-			ORDER_DATA -> 'shipping' ->> 'method' AS SHIPPING,
-			(ORDER_DATA -> 'gift' ->> 'wrapped')::BOOLEAN AS GIFT_WRAP,
-			ORDER_DATA -> 'risk' ->> 'flag' AS RISK_FLAG,
+			customer_id,
+			created_at,
+			order_data -> 'shipping' ->> 'method' AS shipping,
+			(order_data -> 'gift' ->> 'wrapped')::BOOLEAN AS gift_wrap,
+			order_data -> 'risk' ->> 'flag' AS risk_flag,
 			ROW_NUMBER() OVER (
 				PARTITION BY
-					CUSTOMER_ID
+					customer_id
 				ORDER BY
-					CREATED_AT DESC
+					created_at DESC
 			)
 		FROM
-			ORDERS
-	) AS O
+			orders
+	) AS o
 WHERE
-	ROW_NUMBER = 1
+	row_number = 1
 ORDER BY
-	CREATED_AT DESC;
+	created_at DESC;

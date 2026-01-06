@@ -14,33 +14,33 @@ Order the results by departure_time.
 SELECT
 	*
 FROM
-	TRAVEL_MANIFESTS
+	travel_manifests
 LIMIT
 	10;
 
 WITH
-	MANIFEST AS (
+	manifest AS (
 		SELECT
-			VEHICLE_ID,
-			DEPARTURE_TIME,
+			vehicle_id,
+			departure_time,
 			CARDINALITY(
-				XPATH('/manifest/passengers/passenger', MANIFEST_XML)
-			) AS TOTAL_PASSENGERS
+				XPATH('/manifest/passengers/passenger', manifest_xml)
+			) AS total_passengers
 		FROM
-			TRAVEL_MANIFESTS
+			travel_manifests
 		WHERE
-			VEHICLE_ID ILIKE '%cargo%'
+			vehicle_id ILIKE '%cargo%'
 	)
 SELECT
-	VEHICLE_ID,
-	DEPARTURE_TIME,
-	SUM(TOTAL_PASSENGERS) AS TOTAL_PASSENGERS
+	vehicle_id,
+	departure_time,
+	SUM(total_passengers) AS total_passengers
 FROM
-	MANIFEST
+	manifest
 GROUP BY
 	1,
 	2
 HAVING
-	SUM(TOTAL_PASSENGERS) > 20
+	SUM(total_passengers) > 20
 ORDER BY
-	DEPARTURE_TIME DESC;
+	departure_time DESC;

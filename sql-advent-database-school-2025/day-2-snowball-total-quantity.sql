@@ -10,20 +10,20 @@ Sort the output from fewest to most total_usable_snowballs.
 SELECT
 	*
 FROM
-	SNOWBALL_INVENTORY;
+	snowball_inventory;
 
 SELECT
 	*
 FROM
-	SNOWBALL_CATEGORIES;
+	snowball_categories;
 
 SELECT
-	SC.OFFICIAL_CATEGORY,
-	SUM(SI.QUANTITY)
+	sc.official_category,
+	SUM(si.quantity)
 FROM
-	SNOWBALL_CATEGORIES AS SC
-	LEFT JOIN SNOWBALL_INVENTORY AS SI ON SI.CATEGORY_NAME = SC.OFFICIAL_CATEGORY
-	AND SI.QUANTITY > 0
+	snowball_categories AS sc
+	LEFT JOIN snowball_inventory AS si ON si.category_name = sc.official_category
+	AND si.quantity > 0
 GROUP BY
 	1
 ORDER BY

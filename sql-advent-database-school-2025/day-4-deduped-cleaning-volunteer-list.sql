@@ -6,66 +6,68 @@ Using the official_shifts and last_minute_signups tables, create a combined de-d
 Ensure the list has standardized role labels of Stage Setup, Cocoa Station, Parking Support, Choir Assistant, Snow Shoveling, Handwarmer Handout.
 Make sure that the timeslot formats follow John's official shifts format.
 */
+
 SELECT
 	*
 FROM
-	OFFICIAL_SHIFTS
+	official_shifts
 LIMIT
 	100;
 
 SELECT
 	*
 FROM
-	LAST_MINUTE_SIGNUPS
+	last_minute_signups
 LIMIT
 	100;
 
 WITH
-	CLEANED_OFFICIAL_SHIFTS AS (
+	cleaned_official_shifts AS (
 		SELECT
 			*,
-			CASE ROLE
+			CASE role
 				WHEN 'stage_setup' THEN 'Stage Setup'
 				WHEN 'cocoa_station' THEN 'Cocoa Station'
 				WHEN 'parking_support' THEN 'Parking Support'
 				WHEN 'choir_assistant' THEN 'Choir Assistant'
 				ELSE 'missing'
-			END AS CLEANED_ROLE
+			END AS cleaned_role
 		FROM
-			OFFICIAL_SHIFTS
+			official_shifts
 	),
-	CLEANED_LAST_MINUTE_SIGNUPS AS (
+	cleaned_last_minute_signups AS (
 		SELECT
 			*,
 			CASE
-				WHEN ASSIGNED_TASK ILIKE '%stage%' THEN 'Stage Setup'
-				WHEN ASSIGNED_TASK ILIKE '%cocoa%' THEN 'Cocoa Station'
-				WHEN ASSIGNED_TASK ILIKE '%parking%' THEN 'Parking Support'
-				WHEN ASSIGNED_TASK ILIKE '%choir%' THEN 'Choir Assistant'
-				WHEN ASSIGNED_TASK ILIKE '%handwarmer%' THEN 'Handwarmer Handout'
-				WHEN ASSIGNED_TASK ILIKE '%shovel%' THEN 'Snow Shoveling'
+				WHEN assigned_task ILIKE '%stage%' THEN 'Stage Setup'
+				WHEN assigned_task ILIKE '%cocoa%' THEN 'Cocoa Station'
+				WHEN assigned_task ILIKE '%parking%' THEN 'Parking Support'
+				WHEN assigned_task ILIKE '%choir%' THEN 'Choir Assistant'
+				WHEN assigned_task ILIKE '%handwarmer%' THEN 'Handwarmer Handout'
+				WHEN assigned_task ILIKE '%shovel%' THEN 'Snow Shoveling'
 				ELSE 'missing'
-			END AS CLEANED_TASK,
+			END AS cleaned_task,
 			CASE
-				WHEN TIME_SLOT ILIKE '2%p%m%' THEN '2:00 PM'
-				WHEN TIME_SLOT ILIKE '10%a%m%' THEN '10:00 AM'
-				WHEN TIME_SLOT ILIKE '%noon%' THEN '12:00 PM'
+				WHEN time_slot ILIKE '2%p%m%' THEN '2:00 PM'
+				WHEN time_slot ILIKE '10%a%m%' THEN '10:00 AM'
+				WHEN time_slot ILIKE '%noon%' THEN '12:00 PM'
 				ELSE 'missing'
-			END AS CLEANED_TIME_SLOT
+			END AS cleaned_time_slot
 		FROM
-			LAST_MINUTE_SIGNUPS
+			last_minute_signups
 	)
 SELECT
-	VOLUNTEER_NAME,
-	CLEANED_ROLE AS ROLE,
-	SHIFT_TIME
+	volunteer_name,
+	cleaned_role AS role,
+	shift_time
 FROM
-	CLEANED_OFFICIAL_SHIFTS
+	cleaned_official_shifts
 UNION
 SELECT
-	VOLUNTEER_NAME,
-	CLEANED_TASK AS ROLE,
-	CLEANED_TIME_SLOT AS SHIFT_TIME
+	volunteer_name,
+	cleaned_task AS role,
+	cleaned_time_slot AS shift_time
 FROM
-	CLEANED_LAST_MINUTE_SIGNUPS
-order by 1;
+	cleaned_last_minute_signups
+ORDER BY
+	1;

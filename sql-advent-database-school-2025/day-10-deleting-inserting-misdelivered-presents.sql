@@ -13,45 +13,45 @@ Make sure your final step shows the misdelivered_presents records that you just 
 SELECT
 	*
 FROM
-	DELIVERIES
+	deliveries
 LIMIT
 	10;
 
 SELECT
 	*
 FROM
-	MISDELIVERED_PRESENTS
+	misdelivered_presents
 LIMIT
 	10;
 
 WITH
-	CLEANING_DELIVERIES AS (
-		DELETE FROM DELIVERIES
+	cleaning_deliveries AS (
+		DELETE FROM deliveries
 		WHERE
-			DELIVERY_LOCATION ILIKE ANY (
+			delivery_location ILIKE ANY (
 				ARRAY['%Volcano%', '%Igloo%', '%Lighthouse%', '%Vibes%']
 			)
 		RETURNING
 			*
 	)
 INSERT INTO
-	MISDELIVERED_PRESENTS (
-		ID,
-		CHILD_NAME,
-		DELIVERY_LOCATION,
-		GIFT_NAME,
-		SCHEDULED_AT,
-		FLAGGED_AT,
-		REASON
+	misdelivered_presents (
+		id,
+		child_name,
+		delivery_location,
+		gift_name,
+		scheduled_at,
+		flagged_at,
+		reason
 	)
 SELECT
-	ID,
-	CHILD_NAME,
-	DELIVERY_LOCATION,
-	GIFT_NAME,
-	SCHEDULED_AT,
-	NOW() AS FLAGGED_AT,
-	'Invalid delivery location' AS REASON
+	id,
+	child_name,
+	delivery_location,
+	gift_name,
+	scheduled_at,
+	NOW() AS flagged_at,
+	'Invalid delivery location' AS reason
 FROM
-	CLEANING_DELIVERIES
-ON CONFLICT (ID) DO NOTHING;
+	cleaning_deliveries
+ON CONFLICT (id) DO NOTHING;

@@ -10,42 +10,42 @@ so the passengers must be served from one of those cars.
 SELECT
 	*
 FROM
-	PASSENGERS
+	passengers
 LIMIT
 	10;
 
 SELECT
 	*
 FROM
-	COCOA_CARS
+	cocoa_cars
 LIMIT
 	10;
 
 WITH
-	OPERATIONAL_COCOA_CARS AS (
+	operational_cocoa_cars AS (
 		SELECT
 			*
 		FROM
-			COCOA_CARS
+			cocoa_cars
 		ORDER BY
-			TOTAL_STOCK DESC
+			total_stock DESC
 		LIMIT
 			3
 	),
-	PASSENGER_MIXINS AS (
+	passenger_mixins AS (
 		SELECT
-			P.PASSENGER_NAME,
-			P.FAVORITE_MIXINS,
-			O.CAR_ID,
-			O.AVAILABLE_MIXINS
+			p.passenger_name,
+			p.favorite_mixins,
+			o.car_id,
+			o.available_mixins
 		FROM
-			OPERATIONAL_COCOA_CARS AS O
-			INNER JOIN PASSENGERS AS P ON O.AVAILABLE_MIXINS && P.FAVORITE_MIXINS
+			operational_cocoa_cars AS o
+			INNER JOIN passengers AS p ON o.available_mixins && p.favorite_mixins
 	)
 SELECT
-	PASSENGER_NAME,
-	ARRAY_AGG(CAR_ID) as operational_car
+	passenger_name,
+	ARRAY_AGG(car_id) AS operational_car
 FROM
-	PASSENGER_MIXINS
+	passenger_mixins
 GROUP BY
-	PASSENGER_NAME;
+	passenger_name;

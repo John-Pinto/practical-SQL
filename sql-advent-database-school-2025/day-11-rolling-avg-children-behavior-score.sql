@@ -12,37 +12,37 @@ Order the results by behavior_date and then child_name.
 SELECT
 	*
 FROM
-	BEHAVIOR_LOGS
+	behavior_logs
 LIMIT
 	10;
 
 WITH
-	ROLLING_AVG AS (
+	rolling_avg AS (
 		SELECT
 			*,
 			ROUND(
-				AVG(SCORE) OVER (
+				AVG(score) OVER (
 					PARTITION BY
-						CHILD_ID
+						child_id
 					ORDER BY
-						BEHAVIOR_DATE ASC RANGE BETWEEN INTERVAL '6 days' PRECEDING
-						AND CURRENT ROW
+						behavior_date ASC RANGE BETWEEN INTERVAL '6 days' preceding
+						AND current ROW
 				),
 				2
-			) AS ROLLING_AVG_7_DAYS
+			) AS rolling_avg_7_days
 		FROM
-			BEHAVIOR_LOGS
+			behavior_logs
 	)
 SELECT
-	CHILD_ID,
-	CHILD_NAME,
-	BEHAVIOR_DATE,
-	ROLLING_AVG_7_DAYS
+	child_id,
+	child_name,
+	behavior_date,
+	rolling_avg_7_days
 FROM
-	ROLLING_AVG
+	rolling_avg
 WHERE
-	ROLLING_AVG_7_DAYS < 0
-	AND BEHAVIOR_DATE >= '2025-12-07'
+	rolling_avg_7_days < 0
+	AND behavior_date >= '2025-12-07'
 ORDER BY
-	BEHAVIOR_DATE ASC,
-	CHILD_NAME ASC;
+	behavior_date ASC,
+	child_name ASC;

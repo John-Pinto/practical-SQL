@@ -12,30 +12,30 @@ status of "approved" and how many still need to be reviewed (i.e., status is NUL
 SELECT
 	*
 FROM
-	HOTLINE_MESSAGES
+	hotline_messages
 LIMIT
 	100;
 
 SELECT
 	*
 FROM
-	HOTLINE_MESSAGES
+	hotline_messages
 WHERE
-	TRANSCRIPT ILIKE '%sorry%'
-	AND STATUS IS NULL;
+	transcript ILIKE '%sorry%'
+	AND status IS NULL;
 
-UPDATE HOTLINE_MESSAGES
+UPDATE hotline_messages
 SET
-	STATUS = 'approved'
+	status = 'approved'
 WHERE
-	TRANSCRIPT ILIKE '%sorry%';
+	transcript ILIKE '%sorry%';
 
 SELECT
 	*
 FROM
-	HOTLINE_MESSAGES
+	hotline_messages
 WHERE
-	TAG ILIKE ANY (
+	tag ILIKE ANY (
 		ARRAY[
 			'%penguin%',
 			'%time%loop%',
@@ -43,11 +43,11 @@ WHERE
 			'%nonsense%'
 		]
 	)
-	OR CALLER_NAME ILIKE '%test%';
+	OR caller_name ILIKE '%test%';
 
-DELETE FROM HOTLINE_MESSAGES
+DELETE FROM hotline_messages
 WHERE
-	TAG ILIKE ANY (
+	tag ILIKE ANY (
 		ARRAY[
 			'%penguin%',
 			'%time%loop%',
@@ -55,32 +55,32 @@ WHERE
 			'%nonsense%'
 		]
 	)
-	OR CALLER_NAME ILIKE '%test%';
+	OR caller_name ILIKE '%test%';
 
 SELECT
 	SUM(
 		CASE
-			WHEN STATUS = 'approved' THEN 1
+			WHEN status = 'approved' THEN 1
 			ELSE 0
 		END
-	) AS APPROVED_COUNT,
+	) AS approved_count,
 	SUM(
 		CASE
-			WHEN STATUS IS NULL THEN 1
+			WHEN status IS NULL THEN 1
 			ELSE 0
 		END
-	) AS NEEDS_REVIEW
+	) AS needs_review
 FROM
-	HOTLINE_MESSAGES;
+	hotline_messages;
 
 SELECT
 	COUNT(*) FILTER (
 		WHERE
-			STATUS = 'approved'
-	) AS APPROVED_COUNT,
+			status = 'approved'
+	) AS approved_count,
 	COUNT(*) FILTER (
 		WHERE
-			STATUS IS NULL
-	) AS NEEDS_REVIEW
+			status IS NULL
+	) AS needs_review
 FROM
-	HOTLINE_MESSAGES;
+	hotline_messages;

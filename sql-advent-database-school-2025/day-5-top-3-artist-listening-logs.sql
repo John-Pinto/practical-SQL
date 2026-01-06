@@ -3,10 +3,11 @@ Day 5 - https://databaseschool.com/series/advent-of-sql/videos/316
 
 Challenge: Write a query that returns the top 3 artists per user. Order the results by the most played.
 */
+
 SELECT
 	*
 FROM
-	LISTENING_LOGS
+	listening_logs
 LIMIT
 	100;
 
@@ -15,21 +16,21 @@ SELECT
 FROM
 	(
 		SELECT
-			USER_NAME,
-			ARTIST,
-			COUNT(*) AS PLAY_COUNT,
+			user_name,
+			artist,
+			COUNT(*) AS play_count,
 			DENSE_RANK() OVER (
 				PARTITION BY
-					USER_NAME
+					user_name
 				ORDER BY
 					COUNT(*) DESC,
-					ARTIST ASC
-			) AS RANK
+					artist ASC
+			) AS rank
 		FROM
-			LISTENING_LOGS
+			listening_logs
 		GROUP BY
 			1,
 			2
 	)
 WHERE
-	RANK <= 3;
+	rank <= 3;

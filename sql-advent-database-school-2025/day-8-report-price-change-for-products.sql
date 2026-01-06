@@ -9,40 +9,41 @@ and the difference between the current and previous prices.
 SELECT
 	*
 FROM
-	PRODUCTS
+	products
 LIMIT
 	10;
 
 SELECT
 	*
 FROM
-	PRICE_CHANGES
+	price_changes
 LIMIT
 	10;
 
 WITH
-	PRICE_CHANGE_DIFF AS (
+	price_change_diff AS (
 		SELECT
 			*,
-			LEAD(PRICE) OVER w AS PREVIOUS_PRICE,
-			row_number() over w
+			LEAD(price) OVER w AS previous_price,
+			ROW_NUMBER() OVER w
 		FROM
-			PRICE_CHANGES
+			price_changes
 		WINDOW
-			W AS (
+			w AS (
 				PARTITION BY
-					PRODUCT_ID
+					product_id
 				ORDER BY
-					EFFECTIVE_TIMESTAMP DESC
+					effective_timestamp DESC
 			)
 	)
 SELECT
-	P.PRODUCT_NAME,
-	PC.EFFECTIVE_TIMESTAMP,
-	PC.PRICE AS CURRENT_PRICE,
-	PC.PREVIOUS_PRICE,
-	PC.PRICE - PC.PREVIOUS_PRICE AS DIFFERENCE
+	p.product_name,
+	pc.effective_timestamp,
+	pc.price AS current_price,
+	pc.previous_price,
+	pc.price - pc.previous_price AS difference
 FROM
-	PRICE_CHANGE_DIFF AS PC
-	LEFT JOIN PRODUCTS AS P ON PC.PRODUCT_ID = P.PRODUCT_ID
-where row_number = 1;
+	price_change_diff AS pc
+	LEFT JOIN products AS p ON pc.product_id = p.product_id
+WHERE
+	row_number = 1;

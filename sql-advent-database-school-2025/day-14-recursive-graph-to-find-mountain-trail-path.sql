@@ -12,32 +12,32 @@ None of the possible routes will take more than 12 connections.
 SELECT
 	*
 FROM
-	MOUNTAIN_NETWORK;
+	mountain_network;
 
 WITH RECURSIVE
-	MOUNTAIN_PATH AS (
+	mountain_path AS (
 		-- Base Condition
 		SELECT
-			1 AS SEGMENT_COUNT,
-			'Jake''s Lift' AS CURRENT_NODE,
-			'Jake''s Lift' AS ROUTE
+			1 AS segment_count,
+			'Jake''s Lift' AS current_node,
+			'Jake''s Lift' AS route
 		UNION ALL
 		-- Recursive condition
 		SELECT
-			MP.SEGMENT_COUNT + 1,
-			MN.TO_NODE,
-			MP.ROUTE || ' -> ' || MN.TO_NODE
+			mp.segment_count + 1,
+			mn.to_node,
+			mp.route || ' -> ' || mn.to_node
 		FROM
-			MOUNTAIN_NETWORK AS MN
-			INNER JOIN MOUNTAIN_PATH AS MP ON MN.FROM_NODE = MP.CURRENT_NODE
+			mountain_network AS mn
+			INNER JOIN mountain_path AS mp ON mn.from_node = mp.current_node
 		WHERE
 			-- condition to stop recursion and to move forward not in a loop
-			SEGMENT_COUNT <= 12
-			AND ROUTE NOT LIKE '%' || MN.TO_NODE || '%' -- mn.to_node should be distinct for mp.route
+			segment_count <= 12
+			AND route NOT LIKE '%' || mn.to_node || '%' -- mn.to_node should be distinct for mp.route
 	)
 SELECT
 	*
 FROM
-	MOUNTAIN_PATH
+	mountain_path
 WHERE
-	CURRENT_NODE ILIKE '%maverick%'
+	current_node ILIKE '%maverick%'
