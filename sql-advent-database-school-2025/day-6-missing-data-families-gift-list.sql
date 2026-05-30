@@ -9,6 +9,9 @@ Label the columns as unassigned_date and name. Order the results by unassigned_d
 both in ascending order.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

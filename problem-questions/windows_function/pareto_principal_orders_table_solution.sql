@@ -1,6 +1,9 @@
 -- write a query to find the products that obey the pareto principal using the sales in the orders table.
 -- Find the 20 percent products that make 80 percent of the sales.
 
+SET
+	SEARCH_PATH = PROBLEM_QUESTIONS;
+
 SELECT
 	*
 FROM

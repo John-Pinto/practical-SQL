@@ -9,6 +9,9 @@ Find all the possible routes from Jake's Lift to Maverick.
 None of the possible routes will take more than 12 connections.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

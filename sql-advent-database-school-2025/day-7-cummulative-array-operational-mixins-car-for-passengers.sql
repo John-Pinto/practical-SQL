@@ -7,6 +7,9 @@ Remember only the top three most-stocked cocoa cars remained operational,
 so the passengers must be served from one of those cars.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

@@ -6,6 +6,9 @@ leadership that returns the product_name, current_price, previous_price,
 and the difference between the current and previous prices.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

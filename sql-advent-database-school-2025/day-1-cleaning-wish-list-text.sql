@@ -6,6 +6,9 @@ Return the results in two columns: wish and count.
 Make sure the wish results have no extra leading or trailing spaces and are all lowercase.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	TRIM(LOWER(raw_wish)) AS raw_wish,
 	COUNT(*)

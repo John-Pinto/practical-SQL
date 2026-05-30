@@ -9,6 +9,9 @@ After updating and deleting the records as described, write a final query that r
 status of "approved" and how many still need to be reviewed (i.e., status is NULL).
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

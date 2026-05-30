@@ -11,6 +11,9 @@ The total number of passengers on that departure
 Order the results by departure_time.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

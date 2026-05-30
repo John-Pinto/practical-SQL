@@ -9,6 +9,9 @@ ensuring that each rolling average is based on a full 7 days of data.
 Order the results by behavior_date and then child_name.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

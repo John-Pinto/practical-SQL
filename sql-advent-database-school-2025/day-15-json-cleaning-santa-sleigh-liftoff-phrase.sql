@@ -11,6 +11,9 @@ to reveal the confirmation phrase.
 The sleigh won’t launch without it.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

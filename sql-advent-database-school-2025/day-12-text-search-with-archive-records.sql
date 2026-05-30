@@ -8,6 +8,9 @@ rank the results by relevance (most relevant first).
 Provide the elves the top 5 most relevant archived records back.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

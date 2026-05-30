@@ -4,6 +4,9 @@ Day 5 - https://databaseschool.com/series/advent-of-sql/videos/316
 Challenge: Write a query that returns the top 3 artists per user. Order the results by the most played.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

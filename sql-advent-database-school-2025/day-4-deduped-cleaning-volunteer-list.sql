@@ -7,6 +7,9 @@ Ensure the list has standardized role labels of Stage Setup, Cocoa Station, Park
 Make sure that the timeslot formats follow John's official shifts format.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

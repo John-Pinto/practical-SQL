@@ -7,6 +7,9 @@ and the risk flag in separate columns.
 Order the report by the most recent order first so Evergreen Market can reach out to them ASAP.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

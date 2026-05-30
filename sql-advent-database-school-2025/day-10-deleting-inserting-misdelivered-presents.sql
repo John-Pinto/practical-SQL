@@ -10,6 +10,9 @@ Make sure your final step shows the misdelivered_presents records that you just 
 (i.e. don't include any existing records from the misdelivered_presents table).
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM

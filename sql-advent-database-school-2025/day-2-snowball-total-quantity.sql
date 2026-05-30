@@ -7,6 +7,9 @@ Your final table should have the columns official_category and total_usable_snow
 Sort the output from fewest to most total_usable_snowballs.
 */
 
+SET
+	SEARCH_PATH = SQL_ADVENT_2025;
+
 SELECT
 	*
 FROM
